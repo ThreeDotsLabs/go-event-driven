@@ -1,8 +1,6 @@
 package log
 
-import (
-	"github.com/sirupsen/logrus"
-)
+import "github.com/sirupsen/logrus"
 
 func Init(level logrus.Level) {
 	logrus.SetLevel(level)
