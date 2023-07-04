@@ -21,12 +21,12 @@ type PostTicketBookingRequest struct {
 	BookingId       openapi_types.UUID `json:"booking_id"`
 	CustomerAddress string             `json:"customer_address"`
 	EventId         openapi_types.UUID `json:"event_id"`
-	TicketId        openapi_types.UUID `json:"ticket_id"`
+	NumberOfTickets int                `json:"number_of_tickets"`
 }
 
 // PostTicketBookingResp defines model for PostTicketBookingResp.
 type PostTicketBookingResp struct {
-	TicketId openapi_types.UUID `json:"ticket_id"`
+	BookingId openapi_types.UUID `json:"booking_id"`
 }
 
 // PostTicketBookingJSONRequestBody defines body for PostTicketBooking for application/json ContentType.
