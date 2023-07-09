@@ -22,6 +22,11 @@ type CreateReceipt struct {
 	TicketId       string  `json:"ticket_id"`
 }
 
+// ErrorResponse defines model for ErrorResponse.
+type ErrorResponse struct {
+	Error string `json:"error"`
+}
+
 // Money defines model for Money.
 type Money struct {
 	MoneyAmount   string `json:"money_amount"`
@@ -390,6 +395,7 @@ type PutReceiptsResponse struct {
 	HTTPResponse *http.Response
 	JSON200      *Receipt
 	JSON201      *Receipt
+	JSON400      *ErrorResponse
 }
 
 // Status returns HTTPResponse.Status
@@ -525,6 +531,13 @@ func ParsePutReceiptsResponse(rsp *http.Response) (*PutReceiptsResponse, error) 
 			return nil, err
 		}
 		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
 
 	}
 
