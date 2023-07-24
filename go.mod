@@ -3,7 +3,7 @@ module github.com/ThreeDotsLabs/go-event-driven
 go 1.20
 
 require (
-	github.com/ThreeDotsLabs/watermill v1.2.0
+	github.com/ThreeDotsLabs/watermill v1.3.2
 	github.com/deepmap/oapi-codegen v1.12.4
 	github.com/labstack/echo/v4 v4.9.1
 	github.com/lithammer/shortuuid/v3 v3.0.7
