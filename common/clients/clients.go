@@ -27,6 +27,14 @@ func NewClients(
 	gatewayAddress string,
 	requestEditorFn RequestEditorFn,
 ) (*Clients, error) {
+	return NewClientsWithHttpClient(gatewayAddress, requestEditorFn, http.DefaultClient)
+}
+
+func NewClientsWithHttpClient(
+	gatewayAddress string,
+	requestEditorFn RequestEditorFn,
+	httpDoer HttpDoer,
+) (*Clients, error) {
 	if gatewayAddress == "" {
 		return nil, fmt.Errorf("gateway address is required")
 	}
@@ -43,6 +51,7 @@ func NewClients(
 		files.NewClientWithResponses,
 		files.WithRequestEditorFn(files.RequestEditorFn(requestEditorFn)),
 		files.WithRequestEditorFn(files.RequestEditorFn(requestEditorFn)),
+		files.WithHTTPClient(httpDoer),
 	)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create files client: %w", err)
@@ -53,6 +62,7 @@ func NewClients(
 		"payments-api",
 		payments.NewClientWithResponses,
 		payments.WithRequestEditorFn(payments.RequestEditorFn(requestEditorFn)),
+		payments.WithHTTPClient(httpDoer),
 	)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create payments client: %w", err)
@@ -63,6 +73,7 @@ func NewClients(
 		"receipts-api",
 		receipts.NewClientWithResponses,
 		receipts.WithRequestEditorFn(receipts.RequestEditorFn(requestEditorFn)),
+		receipts.WithHTTPClient(httpDoer),
 	)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create receipts client: %w", err)
@@ -73,6 +84,7 @@ func NewClients(
 		"scoreboard-api",
 		scoreboard.NewClientWithResponses,
 		scoreboard.WithRequestEditorFn(scoreboard.RequestEditorFn(requestEditorFn)),
+		scoreboard.WithHTTPClient(httpDoer),
 	)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create scoreboard client: %w", err)
@@ -83,6 +95,7 @@ func NewClients(
 		"spreadsheets-api",
 		spreadsheets.NewClientWithResponses,
 		spreadsheets.WithRequestEditorFn(spreadsheets.RequestEditorFn(requestEditorFn)),
+		spreadsheets.WithHTTPClient(httpDoer),
 	)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create spreadsheets client: %w", err)
@@ -93,6 +106,7 @@ func NewClients(
 		"dead-nation-api",
 		dead_nation.NewClientWithResponses,
 		dead_nation.WithRequestEditorFn(dead_nation.RequestEditorFn(requestEditorFn)),
+		dead_nation.WithHTTPClient(httpDoer),
 	)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create dead-nation client: %w", err)
@@ -106,6 +120,10 @@ func NewClients(
 		Spreadsheets: spreadsheetsClient,
 		DeadNation:   deadNationClient,
 	}, nil
+}
+
+type HttpDoer interface {
+	Do(req *http.Request) (*http.Response, error)
 }
 
 type RequestEditorFn func(ctx context.Context, req *http.Request) error
