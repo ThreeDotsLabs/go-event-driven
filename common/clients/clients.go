@@ -12,15 +12,17 @@ import (
 	"github.com/ThreeDotsLabs/go-event-driven/common/clients/receipts"
 	"github.com/ThreeDotsLabs/go-event-driven/common/clients/scoreboard"
 	"github.com/ThreeDotsLabs/go-event-driven/common/clients/spreadsheets"
+	"github.com/ThreeDotsLabs/go-event-driven/common/clients/transportation"
 )
 
 type Clients struct {
-	Files        files.ClientWithResponsesInterface
-	Payments     payments.ClientWithResponsesInterface
-	Receipts     receipts.ClientWithResponsesInterface
-	Scoreboard   scoreboard.ClientWithResponsesInterface
-	Spreadsheets spreadsheets.ClientWithResponsesInterface
-	DeadNation   dead_nation.ClientWithResponsesInterface
+	Files          files.ClientWithResponsesInterface
+	Payments       payments.ClientWithResponsesInterface
+	Receipts       receipts.ClientWithResponsesInterface
+	Scoreboard     scoreboard.ClientWithResponsesInterface
+	Spreadsheets   spreadsheets.ClientWithResponsesInterface
+	DeadNation     dead_nation.ClientWithResponsesInterface
+	Transportation transportation.ClientWithResponsesInterface
 }
 
 func NewClients(
@@ -112,13 +114,22 @@ func NewClientsWithHttpClient(
 		return nil, fmt.Errorf("failed to create dead-nation client: %w", err)
 	}
 
+	transportationClient, err := newClient(
+		gatewayAddress,
+		"transportation-api",
+		transportation.NewClientWithResponses,
+		transportation.WithRequestEditorFn(transportation.RequestEditorFn(requestEditorFn)),
+		transportation.WithHTTPClient(httpDoer),
+	)
+
 	return &Clients{
-		Files:        filesClient,
-		Payments:     paymentsClient,
-		Receipts:     receiptsClient,
-		Scoreboard:   scoreboardClient,
-		Spreadsheets: spreadsheetsClient,
-		DeadNation:   deadNationClient,
+		Files:          filesClient,
+		Payments:       paymentsClient,
+		Receipts:       receiptsClient,
+		Scoreboard:     scoreboardClient,
+		Spreadsheets:   spreadsheetsClient,
+		DeadNation:     deadNationClient,
+		Transportation: transportationClient,
 	}, nil
 }
 
