@@ -1,6 +1,8 @@
 package http
 
 import (
+	"unicode/utf8"
+
 	"github.com/ThreeDotsLabs/go-event-driven/common/log"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -17,11 +19,18 @@ func useMiddlewares(e *echo.Echo) {
 		}),
 		middleware.BodyDump(func(c echo.Context, reqBody, resBody []byte) {
 			reqID := c.Response().Header().Get(echo.HeaderXRequestID)
-			logger := log.FromContext(c.Request().Context()).WithFields(logrus.Fields{
-				"request_id":      reqID,
-				"request_body: ":  string(reqBody),
-				"response_body: ": string(resBody),
-			})
+			fields := logrus.Fields{
+				"request_id":     reqID,
+				"request_body: ": string(reqBody),
+			}
+			if utf8.ValidString(string(resBody)) {
+				fields["response_body: "] = string(resBody)
+			} else {
+				fields["response_body: "] = "<binary data>"
+			}
+
+			logger := log.FromContext(c.Request().Context()).WithFields(fields)
+
 			logger.Info("Request/response")
 		}),
 		middleware.RequestLoggerWithConfig(middleware.RequestLoggerConfig{
