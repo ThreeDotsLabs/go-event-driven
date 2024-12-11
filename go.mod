@@ -1,6 +1,6 @@
 module github.com/ThreeDotsLabs/go-event-driven
 
-go 1.21
+go 1.23
 
 require (
 	github.com/ThreeDotsLabs/watermill v1.3.2
