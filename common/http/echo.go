@@ -4,7 +4,7 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/ThreeDotsLabs/go-event-driven/common/log"
+	"github.com/ThreeDotsLabs/go-event-driven/v2/common/log"
 	"github.com/labstack/echo/v4"
 )
 
@@ -19,7 +19,7 @@ func NewEcho() *echo.Echo {
 }
 
 func HandleError(err error, c echo.Context) {
-	log.FromContext(c.Request().Context()).WithError(err).Error("HTTP error")
+	log.FromContext(c.Request().Context()).With("error", err).Error("HTTP error")
 
 	httpCode := http.StatusInternalServerError
 	msg := any("Internal server error")

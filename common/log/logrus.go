@@ -1,15 +1,16 @@
 package log
 
-import "github.com/sirupsen/logrus"
+import (
+	"log/slog"
+	"os"
+)
 
-func Init(level logrus.Level) {
-	logrus.SetLevel(level)
+func Init(level slog.Level) {
+	opts := &slog.HandlerOptions{
+		Level: level,
+	}
 
-	logrus.SetFormatter(&logrus.TextFormatter{
-		ForceColors:      true,
-		DisableQuote:     true,
-		TimestampFormat:  "15:04:05.0000",
-		FullTimestamp:    true,
-		QuoteEmptyFields: true,
-	})
+	logger := slog.New(slog.NewTextHandler(os.Stderr, opts))
+
+	slog.SetDefault(logger)
 }

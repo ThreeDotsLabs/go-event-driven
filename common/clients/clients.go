@@ -6,13 +6,13 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/ThreeDotsLabs/go-event-driven/common/clients/dead_nation"
-	"github.com/ThreeDotsLabs/go-event-driven/common/clients/files"
-	"github.com/ThreeDotsLabs/go-event-driven/common/clients/payments"
-	"github.com/ThreeDotsLabs/go-event-driven/common/clients/receipts"
-	"github.com/ThreeDotsLabs/go-event-driven/common/clients/scoreboard"
-	"github.com/ThreeDotsLabs/go-event-driven/common/clients/spreadsheets"
-	"github.com/ThreeDotsLabs/go-event-driven/common/clients/transportation"
+	"github.com/ThreeDotsLabs/go-event-driven/v2/common/clients/dead_nation"
+	"github.com/ThreeDotsLabs/go-event-driven/v2/common/clients/files"
+	"github.com/ThreeDotsLabs/go-event-driven/v2/common/clients/payments"
+	"github.com/ThreeDotsLabs/go-event-driven/v2/common/clients/receipts"
+	"github.com/ThreeDotsLabs/go-event-driven/v2/common/clients/scoreboard"
+	"github.com/ThreeDotsLabs/go-event-driven/v2/common/clients/spreadsheets"
+	"github.com/ThreeDotsLabs/go-event-driven/v2/common/clients/transportation"
 )
 
 type Clients struct {
