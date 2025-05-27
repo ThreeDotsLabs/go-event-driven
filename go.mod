@@ -1,4 +1,4 @@
-module github.com/ThreeDotsLabs/go-event-driven
+module github.com/ThreeDotsLabs/go-event-driven/v2
 
 go 1.23
 
@@ -7,7 +7,6 @@ require (
 	github.com/deepmap/oapi-codegen v1.12.4
 	github.com/labstack/echo/v4 v4.9.1
 	github.com/lithammer/shortuuid/v3 v3.0.7
-	github.com/sirupsen/logrus v1.9.0
 )
 
 require (
