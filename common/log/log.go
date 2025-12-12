@@ -2,19 +2,19 @@ package log
 
 import (
 	"context"
-	"log/slog"
-	"os"
+
+	"github.com/sirupsen/logrus"
 )
 
-func FromContext(ctx context.Context) *slog.Logger {
-	log, ok := ctx.Value(loggerKey).(*slog.Logger)
+func FromContext(ctx context.Context) *logrus.Entry {
+	log, ok := ctx.Value(loggerKey).(*logrus.Entry)
 	if ok {
 		return log
 	}
 
-	return slog.New(slog.NewTextHandler(os.Stderr, nil))
+	return logrus.NewEntry(logrus.StandardLogger())
 }
 
-func ToContext(ctx context.Context, logger *slog.Logger) context.Context {
-	return context.WithValue(ctx, loggerKey, logger)
+func ToContext(ctx context.Context, log *logrus.Entry) context.Context {
+	return context.WithValue(ctx, loggerKey, log)
 }
