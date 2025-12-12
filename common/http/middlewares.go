@@ -22,13 +22,13 @@ func useMiddlewares(e *echo.Echo) {
 
 			logger := log.FromContext(c.Request().Context()).With(
 				"request_id", reqID,
-				"request_body: ", string(reqBody),
+				"request_body", string(reqBody),
 			)
 
 			if utf8.ValidString(string(resBody)) {
-				logger = logger.With("response_body: ", string(resBody))
+				logger = logger.With("response_body", string(resBody))
 			} else {
-				logger = logger.With("response_body: ", "<binary data>")
+				logger = logger.With("response_body", "<binary data>")
 			}
 
 			logger.Info("Request/response")

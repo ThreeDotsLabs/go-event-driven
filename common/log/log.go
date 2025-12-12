@@ -3,7 +3,6 @@ package log
 import (
 	"context"
 	"log/slog"
-	"os"
 )
 
 func FromContext(ctx context.Context) *slog.Logger {
@@ -12,7 +11,7 @@ func FromContext(ctx context.Context) *slog.Logger {
 		return log
 	}
 
-	return slog.New(slog.NewTextHandler(os.Stderr, nil))
+	return slog.Default()
 }
 
 func ToContext(ctx context.Context, logger *slog.Logger) context.Context {
